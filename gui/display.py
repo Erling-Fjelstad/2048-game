@@ -1,22 +1,14 @@
 import pygame
+from gui.constants import (
+    WIDTH, HEIGHT, FPS,
+    RECT_WIDTH, RECT_HEIGHT,
+    OUTLINE_COLOR, OUTLINE_THICKNESS,
+    BACKGROUND_COLOR, ROWS, COLS
+)
+from game import Tile
+
 
 pygame.init()
-
-FPS = 60  
-
-WIDTH, HEIGHT = 800, 800
-ROWS = 4
-COLS = 4
-
-RECT_HEIGHT = HEIGHT // ROWS
-RECT_WIDTH = WIDTH // COLS
-
-OUTLINE_COLOR = (190, 170, 160)
-OUTLINE_THICKNESS = 10
-BACKGROUND_COLOR = (205, 190, 180)
-FONT_COLOR = (120, 110, 100)
-
-MOVE_VEL = 20
 
 class GameDisplay:
     def __init__(self):
@@ -31,6 +23,9 @@ class GameDisplay:
 
         # Variable to control the main game loop
         run = True
+        
+        # Tiles dictionary
+        tiles = {"00": Tile(4, 0, 0), "20": Tile(128, 2, 0), "02": Tile(64, 0, 2)}
 
         while run:
             # Limit the loop to run at FPS frames per second
@@ -44,20 +39,25 @@ class GameDisplay:
                     break
 
             # Call draw method to update visuals every frame
-            self.draw()
+            self.draw(tiles)
 
         # Exit pygame after loop ends
         pygame.quit()
 
-    def draw(self):
+    def draw(self, tiles):
         # Fill the window with the background color
         self.window.fill(BACKGROUND_COLOR)
+
+        # Draw each tile onto the window
+        for tile in tiles.values():
+            tile.draw(self.window, self.font)
 
         # Draw grid lines on top of the background
         self.draw_grid()
 
         # Update the display with any changes made this frame
         pygame.display.update()
+
 
     def draw_grid(self):
         # Draw horizontal lines 
