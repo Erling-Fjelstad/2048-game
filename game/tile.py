@@ -1,7 +1,7 @@
 import math
 import pygame
 from gui.constants import (
-    RECT_HEIGHT, RECT_WIDTH, FONT_COLOR, MOVE_VEL
+    RECT_HEIGHT, RECT_WIDTH, FONT_COLOR
 )
 
 pygame.init()
@@ -9,15 +9,18 @@ pygame.init()
 class Tile:
     # RGB colors for different tile values
     COLORS = [
-        (237, 229, 218),
-        (238, 225, 201),
-        (243, 178, 122),
-        (246, 150, 101),
-        (247, 124, 95),
-        (247,  95,  59),
-        (237, 208, 115),
-        (237, 204,  99),
-        (236, 202,  80),
+        (238, 228, 218),  # 2
+        (237, 224, 200),  # 4
+        (242, 177, 121),  # 8
+        (245, 149, 99),   # 16
+        (246, 124, 95),   # 32
+        (246, 94, 59),    # 64
+        (237, 207, 114),  # 128
+        (237, 204, 97),   # 256
+        (237, 200, 80),   # 512
+        (237, 197, 63),   # 1024
+        (237, 194, 46),   # 2048
+        (60, 58, 50),     # 4096+
     ]
 
     def __init__(self, value, row, col):
@@ -47,8 +50,17 @@ class Tile:
              self.y + (RECT_HEIGHT / 2 - text.get_height() / 2))
         )
 
-    def set_pos(self):
-        pass
+    def set_pos(self, ceil=False):
+        if ceil:
+            # Snap position upward to nearest row/column
+            self.row = math.ceil(self.y / RECT_HEIGHT)
+            self.col = math.ceil(self.x / RECT_WIDTH)
+        else:
+            # Snap position downward to nearest row/column
+            self.row = math.floor(self.y / RECT_HEIGHT)
+            self.col = math.floor(self.x / RECT_WIDTH)
 
     def move(self, delta):
-        pass 
+        # Move tile position by delta (x, y) pixels
+        self.x += delta[0]
+        self.y += delta[1]
