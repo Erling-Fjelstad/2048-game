@@ -6,6 +6,7 @@ from gui.constants import (
     BACKGROUND_COLOR, ROWS, COLS
 )
 from game import Tile
+from game import Board
 
 
 pygame.init()
@@ -24,8 +25,9 @@ class GameDisplay:
         # Variable to control the main game loop
         run = True
         
-        # Tiles dictionary
-        tiles = {"00": Tile(4, 0, 0), "20": Tile(128, 2, 0), "02": Tile(64, 0, 2)}
+        # Create the Board object and generate tiles
+        board = Board()
+        tiles = board.generate_tiles()
 
         while run:
             # Limit the loop to run at FPS frames per second

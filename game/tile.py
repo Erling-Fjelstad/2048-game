@@ -1,7 +1,7 @@
 import math
 import pygame
 from gui.constants import (
-    RECT_HEIGHT, RECT_WIDTH, FONT_COLOR
+    RECT_HEIGHT, RECT_WIDTH, FONT_COLOR, MOVE_VEL
 )
 
 pygame.init()
