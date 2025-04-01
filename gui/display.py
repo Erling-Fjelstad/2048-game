@@ -6,6 +6,7 @@ from gui.constants import (
     BACKGROUND_COLOR, ROWS, COLS
 )
 from game import Tile
+from game import Board
 
 
 pygame.init()
@@ -24,8 +25,9 @@ class GameDisplay:
         # Variable to control the main game loop
         run = True
         
-        # Tiles dictionary
-        tiles = {"00": Tile(4, 0, 0), "20": Tile(128, 2, 0), "02": Tile(64, 0, 2)}
+        # Create the Board object and generate tiles
+        board = Board()
+        board.generate_tiles()
 
         while run:
             # Limit the loop to run at FPS frames per second
@@ -38,8 +40,24 @@ class GameDisplay:
                     run = False
                     break
 
+                # Handle key presses for movement
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_LEFT:
+                        # Move all tiles to the left
+                        board.move_tiles(clock, "left", self.draw)
+                    if event.key == pygame.K_RIGHT:
+                        # Move all tiles to the right
+                        board.move_tiles(clock, "right", self.draw)
+                    if event.key == pygame.K_UP:
+                        # Move all tiles upward
+                        board.move_tiles(clock, "up", self.draw)
+                    if event.key == pygame.K_DOWN:
+                        # Move all tiles downward
+                        board.move_tiles(clock, "down", self.draw)
+
+
             # Call draw method to update visuals every frame
-            self.draw(tiles)
+            self.draw(board.tiles)
 
         # Exit pygame after loop ends
         pygame.quit()
