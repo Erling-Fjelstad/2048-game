@@ -29,6 +29,8 @@ class GameDisplay:
         board = Board()
         board.generate_tiles()
 
+        self.draw(board.tiles, board.score)
+
         while run:
             # Limit the loop to run at FPS frames per second
             clock.tick(FPS)
@@ -55,14 +57,10 @@ class GameDisplay:
                         # Move all tiles downward
                         board.move_tiles(clock, "down", self.draw)
 
-
-            # Call draw method to update visuals every frame
-            self.draw(board.tiles)
-
         # Exit pygame after loop ends
         pygame.quit()
 
-    def draw(self, tiles):
+    def draw(self, tiles, score):
         # Fill the window with the background color
         self.window.fill(BACKGROUND_COLOR)
 
@@ -72,6 +70,10 @@ class GameDisplay:
 
         # Draw grid lines on top of the background
         self.draw_grid()
+
+        # Draw score
+        score_text = self.font.render(f"Score: {score}", True, (50, 50, 50))  # dark grey
+        self.window.blit(score_text, (20, 20))  # position top-left
 
         # Update the display with any changes made this frame
         pygame.display.update()
