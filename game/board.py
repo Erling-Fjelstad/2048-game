@@ -10,6 +10,7 @@ class Board:
     def __init__(self):
         # Dictionary to hold all tiles on the board
         self.tiles = {}
+        self.score = 0
 
     def get_random_pos(self) -> int:
         # Find a random empty position on the board that doesn't already contain a tile.
@@ -52,7 +53,7 @@ class Board:
             self.tiles[f"{tile.row}{tile.col}"] = tile
 
         # Redraw the board after updating tile positions
-        draw_callback(self.tiles)
+        draw_callback(self.tiles, self.score)
 
     def move_tiles(self, clock, direction, draw_callback):
         # Controls the movement loop for animation and logic
@@ -127,6 +128,7 @@ class Board:
                     else:
                         # Merge tiles
                         next_tile.value *= 2
+                        self.score += next_tile.value
                         sorted_tiles.pop(i)  # Remove tile from list
                         blocks.add(next_tile)
                 elif move_check(tile, next_tile):
